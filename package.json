@@ -1,0 +1,37 @@
+{
+  "name": "turf-point-along-line",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/morganherlocker/turf-point-along-line.git"
+  },
+  "keywords": [
+    "turf",
+    "linestring",
+    "geojson",
+    "linear",
+    "reference",
+    "line",
+    "distance"
+  ],
+  "author": "morganherlocker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/morganherlocker/turf-point-along-line/issues"
+  },
+  "homepage": "https://github.com/morganherlocker/turf-point-along-line",
+  "devDependencies": {
+    "benchmark": "^1.0.0",
+    "tape": "^3.4.0"
+  },
+  "dependencies": {
+    "turf-bearing": "^1.0.0",
+    "turf-destination": "^1.0.0",
+    "turf-point": "^1.2.1"
+  }
+}
