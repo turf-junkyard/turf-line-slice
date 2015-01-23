@@ -60,7 +60,8 @@ test('turf-line-slice -- route1', function (t) {
 });
 
 test('turf-line-slice -- route2', function (t) {
-	var start = point([-112.774658203125,45.66780526567164]);
+	var start = point([-112.60660171508789,
+          45.96021963947196]);
 	var stop = point([-111.97265625,48.84302835299516]);
 
 	var sliced = pointAlongLine(start, stop, route2);

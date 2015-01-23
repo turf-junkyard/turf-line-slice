@@ -70,7 +70,7 @@ module.exports = function (startPt, stopPt, line) {
     ends = [stopVertex, startVertex];
   }
   var clipLine = linestring([ends[0].geometry.coordinates], {});
-  for(var i = ends[0].properties.index; i < ends[1].properties.index+1; i++) {
+  for(var i = ends[0].properties.index+1; i < ends[1].properties.index+1; i++) {
     clipLine.geometry.coordinates.push(coords[i]);
   }
   clipLine.geometry.coordinates.push(ends[1].geometry.coordinates);
