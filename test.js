@@ -1,6 +1,6 @@
 var test = require('tape');
 var fs = require('fs');
-var pointAlongLine = require('./');
+var lineSlice = require('./');
 var point = require('turf-point');
 var featurecollection = require('turf-featurecollection');
 var linestring = require('turf-linestring');
@@ -13,7 +13,7 @@ test('turf-line-slice -- line1', function (t) {
 	var start = point([-97.79617309570312,22.254624939561698]);
 	var stop = point([-97.72750854492188,22.057641623615734]);
 
-	var sliced = pointAlongLine(start, stop, line1);
+	var sliced = lineSlice(start, stop, line1);
 	sliced.properties['stroke'] = '#f0f';
 	sliced.properties['stroke-width'] = 6;
 
@@ -30,7 +30,7 @@ test('turf-line-slice -- line2', function (t) {
 	var stop = point([.9,.8]);
 	var line2 = linestring([[0,0], [1,1]])
 
-	var sliced = pointAlongLine(start, stop, line2);
+	var sliced = lineSlice(start, stop, line2);
 	sliced.properties['stroke'] = '#f0f';
 	sliced.properties['stroke-width'] = 6;
 
@@ -47,7 +47,7 @@ test('turf-line-slice -- route1', function (t) {
 	var start = point([-79.0850830078125,37.60117623656667]);
 	var stop = point([-77.7667236328125,38.65119833229951]);
 
-	var sliced = pointAlongLine(start, stop, route1);
+	var sliced = lineSlice(start, stop, route1);
 	sliced.properties['stroke'] = '#f0f';
 	sliced.properties['stroke-width'] = 6;
 
@@ -60,11 +60,10 @@ test('turf-line-slice -- route1', function (t) {
 });
 
 test('turf-line-slice -- route2', function (t) {
-	var start = point([-112.60660171508789,
-          45.96021963947196]);
+	var start = point([-112.60660171508789,45.96021963947196]);
 	var stop = point([-111.97265625,48.84302835299516]);
 
-	var sliced = pointAlongLine(start, stop, route2);
+	var sliced = lineSlice(start, stop, route2);
 	sliced.properties['stroke'] = '#f0f';
 	sliced.properties['stroke-width'] = 6;
 
