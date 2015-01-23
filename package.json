@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test.js",
+    "doc": "dox -r < index.js | doxme --readme > README.md"
   },
   "repository": {
     "type": "git",
@@ -27,7 +28,8 @@
   "homepage": "https://github.com/morganherlocker/turf-point-along-line",
   "devDependencies": {
     "benchmark": "^1.0.0",
-    "tape": "^3.4.0"
+    "tape": "^3.4.0",
+    "turf-featurecollection": "^1.0.0"
   },
   "dependencies": {
     "turf-bearing": "^1.0.0",

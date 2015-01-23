@@ -2,17 +2,17 @@ var distance = require('turf-distance');
 var point = require('turf-point');
 var linestring = require('turf-linestring');
 var bearing = require('turf-bearing');
-var destination = require('turf-destination')
+var destination = require('turf-destination');
 
 /**
- * Measures how far a point is down a line in the specified units.
+ * Slices a LineString at start and stop Points
  *
- * @module turf/point-along-line
+ * @module turf/line-slice
  *
- * @param {Point} Point to measure to
- * @param {LineString} Line to measure
- * @param {String} [units=miles] can be degrees, radians, miles, or kilometers
- * @return {Number} Length of the LineString
+ * @param {Point} Point to start the slice
+ * @param {Point} Point to stop the slice
+ * @param {LineString} Line to slice
+ * @return {LineString} Sliced LineString
  * @example
  * var line = {
  *   "type": "Feature",
@@ -47,19 +47,38 @@ var destination = require('turf-destination')
  *     ]
  *   }
  * };
- * var pt = turf.point([-77.02033996582031, 38.88408470638821]);
- *
+ * var start = turf.point([-77.02033996582031, 38.88408470638821]);
+ * var stop = turf.point([-77.02033996582031, 38.88408470638821]);
  * 
- * var distance = turf.pointAlongLine(pt, line, 'miles');
- * //=distance
+ * var sliced = turf.pointAlongLine(start, stop, line);
+ * //=sliced
  */
 
-module.exports = function (pt, line, units) {
+module.exports = function (startPt, stopPt, line) {  
   var coords;
   if(line.type === 'Feature') coords = line.geometry.coordinates;
   else if(line.type === 'LineString') coords = line.geometry.coordinates;
   else throw new Error('input must be a LineString Feature or Geometry');
 
+  var startVertex = pointOnLine(startPt, coords);
+  var stopVertex = pointOnLine(stopPt, coords);
+
+  var ends;
+  if(startVertex.properties.index <= stopVertex.properties.index) {
+    ends = [startVertex, stopVertex];
+  } else {
+    ends = [stopVertex, startVertex];
+  }
+  var clipLine = linestring([ends[0].geometry.coordinates], {});
+  for(var i = ends[0].properties.index; i < ends[1].properties.index+1; i++) {
+    clipLine.geometry.coordinates.push(coords[i]);
+  }
+  clipLine.geometry.coordinates.push(ends[1].geometry.coordinates);
+  return clipLine;
+}
+
+function pointOnLine (pt, coords) {
+  var units = 'miles'
   var closestPt = point([Infinity, Infinity], {dist: Infinity});
   for(var i = 0; i < coords.length - 1; i++) {
     var start = point(coords[i])
@@ -70,7 +89,7 @@ module.exports = function (pt, line, units) {
     stop.properties.dist = distance(pt, stop, units);
     //perpendicular
     var direction = bearing(start, stop)
-    var perpendicularPt = destination(pt, 1000 , direction + 90, 'miles') // 10000 = gross
+    var perpendicularPt = destination(pt, 1000 , direction + 90, units) // 1000 = gross
     var intersect = lineIntersects(
       pt.geometry.coordinates[0],
       pt.geometry.coordinates[1],
@@ -82,7 +101,7 @@ module.exports = function (pt, line, units) {
       stop.geometry.coordinates[1]
       );
     if(!intersect) {
-      perpendicularPt = destination(pt, 1000 , direction - 90, 'miles') // 10000 = gross
+      perpendicularPt = destination(pt, 1000 , direction - 90, units) // 1000 = gross
       intersect = lineIntersects(
         pt.geometry.coordinates[0],
         pt.geometry.coordinates[1],
@@ -98,29 +117,24 @@ module.exports = function (pt, line, units) {
     var intersectPt;
     if(intersect) {
       var intersectPt = point(intersect);
-      intersectPt.properties.dist = distance(pt, intersectPt, units)
+      intersectPt.properties.dist = distance(pt, intersectPt, units);
     }
     
-    if(start.properties.dist < closestPt.properties.dist) closestPt = start
-    if(stop.properties.dist < closestPt.properties.dist) closestPt = stop
-    if(intersectPt && intersectPt.properties.dist < closestPt.properties.dist) closestPt = intersectPt
-    closestPt.properties.index = i
+    if(start.properties.dist < closestPt.properties.dist) {
+      closestPt = start;
+      closestPt.properties.index = i;
+    }
+    if(stop.properties.dist < closestPt.properties.dist) {
+     closestPt = stop;
+     closestPt.properties.index = i;
+    }
+    if(intersectPt && intersectPt.properties.dist < closestPt.properties.dist){ 
+      closestPt = intersectPt;
+      closestPt.properties.index = i;
+    }
   }
   
-  console.log(closestPt.properties.index)
-  var clipLine = linestring([], {});
-  for(var i = 0; i < closestPt.properties.index+1; i++) {
-    clipLine.geometry.coordinates.push(coords[i]);
-  }
-  clipLine.geometry.coordinates.push(closestPt.geometry.coordinates);
-  clipLine.properties.stroke = '#f00'
-  console.log(JSON.stringify(clipLine))
-
-  var travelled = 0;
-  for(var i = 0; i < coords.length - 1; i++) {
-    travelled += distance(point(coords[i]), point(coords[i+1]), units);
-  }
-  return travelled;
+  return closestPt;
 }
 
 // modified from http://jsfiddle.net/justin_c_rounds/Gd2S2/light/
