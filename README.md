@@ -1,4 +1,4 @@
-# turf-point-along-line
+# turf-line-slice
 
 
 
@@ -65,7 +65,7 @@ var sliced = turf.pointAlongLine(start, stop, line);
 Requires [nodejs](http://nodejs.org/).
 
 ```sh
-$ npm install turf-point-along-line
+$ npm install turf-line-slice
 ```
 
 ## Tests
