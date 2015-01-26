@@ -1,6 +1,6 @@
 # turf-line-slice
 
-[![build status](https://secure.travis-ci.org/morganherlocker/turf-line-slice.png)](http://travis-ci.org/morganherlocker/turf-line-slice)
+[![build status](https://secure.travis-ci.org/Turfjs/turf-line-slice.png)](http://travis-ci.org/Turfjs/turf-line-slice)
 
 
 
