@@ -62,7 +62,6 @@ module.exports = function (startPt, stopPt, line) {
 
   var startVertex = pointOnLine(startPt, coords);
   var stopVertex = pointOnLine(stopPt, coords);
-
   var ends;
   if(startVertex.properties.index <= stopVertex.properties.index) {
     ends = [startVertex, stopVertex];
