@@ -50,7 +50,7 @@ var destination = require('turf-destination');
  * var start = turf.point([-77.02033996582031, 38.88408470638821]);
  * var stop = turf.point([-77.02033996582031, 38.88408470638821]);
  * 
- * var sliced = turf.pointAlongLine(start, stop, line);
+ * var sliced = turf.lineSlice(start, stop, line);
  * //=sliced
  */
 
