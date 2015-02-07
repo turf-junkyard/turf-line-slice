@@ -8,7 +8,7 @@ var destination = require('turf-destination');
  * Slices a LineString at start and stop Points
  *
  * @module turf/line-slice
- *
+ * @category misc
  * @param {Point} Point to start the slice
  * @param {Point} Point to stop the slice
  * @param {LineString} Line to slice
