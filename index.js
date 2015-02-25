@@ -5,14 +5,14 @@ var bearing = require('turf-bearing');
 var destination = require('turf-destination');
 
 /**
- * Slices a LineString at start and stop Points
+ * Takes a line, a start point, and a stop point and returns the line in between those points
  *
  * @module turf/line-slice
  * @category misc
- * @param {Point} Point to start the slice
- * @param {Point} Point to stop the slice
- * @param {LineString} Line to slice
- * @return {LineString} Sliced LineString
+ * @param {Feature<Point>} point1 starting point
+ * @param {Feature<Point>} point2 stopping point
+ * @param {Feature<LineString>} line line to slice
+ * @return {Feature<LineString>} sliced line
  * @example
  * var line = {
  *   "type": "Feature",
