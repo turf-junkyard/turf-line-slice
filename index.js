@@ -5,7 +5,7 @@ var bearing = require('turf-bearing');
 var destination = require('turf-destination');
 
 /**
- * Takes a line, a start point, and a stop point and returns the line in between those points
+ * Takes a {@link LineString|line}, a start {@link Point}, and a stop point and returns the line in between those points
  *
  * @module turf/line-slice
  * @category misc
